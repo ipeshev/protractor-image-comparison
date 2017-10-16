@@ -544,7 +544,7 @@ class protractorImageComparison {
     _getElementPositionTopPage(element) {
         return element.getLocation()
             .then(point => {
-                return {x: point.x, y: point.y};
+                return {x: point.x + this.offsetX, y: point.y};
             });
     }
 
@@ -557,7 +557,7 @@ class protractorImageComparison {
     _getElementPositionTopWindow(element) {
         return browser.driver.executeScript('return arguments[0].getBoundingClientRect();', element.getWebElement())
             .then(position => {
-                return {x: position.left, y: position.top};
+                return {x: position.left + this.offsetX, y: position.top};
             });
     }
 
@@ -1004,7 +1004,7 @@ class protractorImageComparison {
         this.saveType.element = true;
         this.resizeDimensions = saveOptions.resizeDimensions ? saveOptions.resizeDimensions : this.resizeDimensions;
         this.disableCSSAnimation = saveOptions.disableCSSAnimation || saveOptions.disableCSSAnimation === false ? saveOptions.disableCSSAnimation : this.disableCSSAnimation;
-
+        this.offsetX = saveOptions.offsetX || 0;
         return this._getInstanceData()
             .then(() => browser.takeScreenshot())
             .then(screenshot => {
